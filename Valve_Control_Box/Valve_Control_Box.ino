@@ -64,7 +64,4 @@ void loop() {
       FuelVentValve.write(0);
     }  
   }
-  
-
-  
 }
