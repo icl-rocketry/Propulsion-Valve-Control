@@ -1,53 +1,68 @@
 #include <Servo.h>
 
-int fillValveSignal = 4;
-int fillValveOut = 3;
-int ventValveSignal = 11;
-int ventValveOut = 5;
-int pressuriseValveSignal = 12;
-int pressuriseValveOut = 6;
+int N2OFillOut = 11;
+int N2OVentOut = 10;
+int FuelVentOut = 9;
+int PressurantOut = 5;
+int UnusedOut = 3;
+
+int N2OFillSignal = 8;
+int SlowVentSignal = 7;
+int FastVentSignal = 6;
+int PressurantSignal = 4;
 
 
-Servo fillValve;
-Servo ventValve;
-Servo pressuriseValve;
+Servo N2OFillValve;
+Servo N2OVentValve;
+Servo FuelVentValve;
+Servo PressurantValve;
 
 
 
 void setup() {
-  fillValve.attach(fillValveOut);
-  ventValve.attach(ventValveOut);
-  pressuriseValve.attach(pressuriseValveOut);
+  N2OFillValve.attach(N2OFillOut);
+  N2OVentValve.attach(N2OVentOut);
+  FuelVentValve.attach(FuelVentOut);
+  PressurantValve.attach(PressurantOut);
   
-  fillValve.write(0);
-  ventValve.write(120);
+  N2OFillValve.write(0);
+  PressurantValve.write(0);
+  N2OVentValve.write(180);
+  FuelVentValve.write(180);
   
 }
 
 void loop() {
   
-  if (digitalRead(fillValveSignal) == HIGH) {
-    fillValve.write(180);
+  if (digitalRead(N2OFillSignal) == HIGH) {
+    N2OFillValve.write(180);
+  }
+
+  if (digitalRead(N2OFillSignal) == LOW) {
+    N2OFillValve.write(0);
   }
   
-  if (digitalRead(ventValveSignal) == HIGH) {
-    ventValve.write(180);
+  if (digitalRead(PressurantSignal) == HIGH) {
+    PressurantValve.write(180);
   }
 
-  if (digitalRead(pressuriseValveSignal) == HIGH) {
-    ventValve.write(180);
+  if (digitalRead(PressurantSignal) == HIGH) {
+    PressurantValve.write(0);
   }
 
-  if (digitalRead(fillValveSignal) == LOW) {
-    fillValve.write(0);
-  }
-  
-  if (digitalRead(ventValveSignal) == LOW) {
-    ventValve.write(0);
+  if (digitalRead(FastVentSignal) == LOW) {
+    N2OVentValve.write(180);
+    FuelVentValve.write(180);
   }
 
-  if (digitalRead(pressuriseValveSignal) == LOW) {
-    fillValve.write(0);
+  if (digitalRead(FastVentSignal) == HIGH) {
+    if (digitalRead(SlowVentSignal) == HIGH) {
+      N2OVentValve.write(90);
+    }
+    else if (digitalRead(SlowVentSignal) == LOW) {
+      N2OVentValve.write(0);
+      FuelVentValve.write(0);
+    }  
   }
   
 
