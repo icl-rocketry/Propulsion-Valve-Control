@@ -4,7 +4,7 @@ int N2OFillOut = 11;
 int N2OVentOut = 10;
 int FuelVentOut = 9;
 int PressurantOut = 5;
-int UnusedOut = 3;
+
 
 int N2OFillSignal = 8;
 int SlowVentSignal = 7;
@@ -46,7 +46,7 @@ void loop() {
     PressurantValve.write(180);
   }
 
-  if (digitalRead(PressurantSignal) == HIGH) {
+  if (digitalRead(PressurantSignal) == LOW) {
     PressurantValve.write(0);
   }
 
@@ -57,10 +57,10 @@ void loop() {
 
   if (digitalRead(FastVentSignal) == HIGH) {
     if (digitalRead(SlowVentSignal) == HIGH) {
-      N2OVentValve.write(90);
+      N2OVentValve.write(0);
     }
     else if (digitalRead(SlowVentSignal) == LOW) {
-      N2OVentValve.write(0);
+      N2OVentValve.write(90);
       FuelVentValve.write(0);
     }  
   }
