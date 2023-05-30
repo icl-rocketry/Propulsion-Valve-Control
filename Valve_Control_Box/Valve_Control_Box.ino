@@ -60,7 +60,7 @@ void loop() {
       N2OVentValve.write(0);
     }
     else if (digitalRead(SlowVentSignal) == LOW) {
-      N2OVentValve.write(90);
+      N2OVentValve.write(110);
       FuelVentValve.write(0);
     }  
   }
